@@ -1,0 +1,54 @@
+schema_version: 1
+
+context:
+  name: structdbrest
+  version: "0.0.1"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/structdbrest-${{ version }}.tar.gz
+  sha256: 9fb673abccc84e966a1a45f51a05aa42596846f386aa4e0d5852cb42ece3c78f
+
+build:
+  number: 3
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - setuptools
+  run:
+    - ase >=3.18
+    - numpy
+    - pandas
+    - python >=${{ python_min }}
+    - requests
+
+tests:
+  - python:
+      imports:
+        - structdbrest
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  license: GPL-3.0-or-later
+  license_file: LICENSE
+  summary: Simple REST API interface to atomistictools.org website/database
+  description: |
+    This is a simple REST API interface to atomistictools.org website that
+    allow to query the structdb database for crystallographic prototypes,
+    structures, properties and calculators.
+  homepage: http://www.atomistictools.org
+  repository: https://github.com/ICAMS/structdb-restapi
+  documentation: http://www.atomistictools.org
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
+    - yury-lysogorskiy
